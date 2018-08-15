@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<title>writeText() ― Async Clipboard API</title>
+<style>
+</style>
+<body>
+<h1>writeText()</h1>
+<textarea cols="30" rows="5" placeholder="enter text to copy"></textarea>
+<div><button type="button" id="copy">Copy</button></div>
+
+<script>
+const copyButton = document.querySelector(`#copy`);
+
+if (!(`clipboard` in navigator && `writeText` in navigator.clipboard)) {
+  copyButton.disabled = true;
+  copyButton.title("Use Ctrl/Cmd+C to copy manually.");
+}
+
+function copyText() {
+  const area = document.querySelector(`textarea`);
+  navigator.clipboard.writeText(textarea)
+  .then(text => {
+    console.log(`Text copied to the clipboard!`);
+  })
+  .catch(error => {
+    area.value = `Copy failed :(`;
+    console.error(`Copy failed :(`, error);
+  })
+}
+
+copyButton.onclick = () => {
+  copyText();
+}
+</script>

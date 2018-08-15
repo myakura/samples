@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<title>readText() ― Async Clipboard API</title>
+<style>
+</style>
+<body>
+<h1>readText()</h1>
+<textarea cols="30" rows="5" placeholder="paste area"></textarea>
+<div><button type="button" id="paste">paste</button></div>
+
+<script>
+const pasteButton = document.querySelector(`#paste`);
+
+if (!(`clipboard` in navigator && `readText` in navigator.clipboard)) {
+  pasteButton.disabled = true;
+  pasteButton.title("Use Ctrl/Cmd+V to paste manually.");
+}
+
+function pasteText() {
+  const area = document.querySelector(`textarea`);
+  navigator.clipboard.readText()
+  .then(text => {
+    area.value = text;
+    console.log(`Paste succeeded!`);
+  })
+  .catch(error => {
+    area.value = `Paste failed :(`;
+    console.error(`Paste failed :(`, error);
+  })
+}
+
+pasteButton.onclick = () => {
+  pasteText();
+}
+</script>
